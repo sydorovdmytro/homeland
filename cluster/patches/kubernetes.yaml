@@ -1,0 +1,5 @@
+---
+machine:
+  kubelet:
+    extraArgs:
+      cpu-cfs-quota: false

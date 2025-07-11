@@ -1,0 +1,11 @@
+
+---
+machine:
+  install:
+    extraKernelArgs:
+      - net.ifnames=0
+
+  network:
+    interfaces:
+      - interface: eth0
+        dhcp: true

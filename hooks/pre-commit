@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Pre-commit hook to ensure secrets.yaml is encrypted with SOPS
+# This prevents accidentally committing unencrypted secrets
+
+set -e
+
+SECRETS_FILE="cluster/secrets.yaml"
+
+# Check if secrets file exists
+if [ ! -f "$SECRETS_FILE" ]; then
+    echo "✓ No secrets file found, skipping check"
+    exit 0
+fi
+
+# Check if file is encrypted by looking for SOPS metadata
+if grep -q "sops:" "$SECRETS_FILE" && grep -q "version:" "$SECRETS_FILE"; then
+    echo "✓ $SECRETS_FILE is encrypted with SOPS"
+    exit 0
+else
+    echo "✗ ERROR: $SECRETS_FILE appears to be unencrypted!"
+    echo ""
+    echo "To encrypt the file, run:"
+    echo "  sops -e -i $SECRETS_FILE"
+    echo ""
+    echo "If you need to commit an unencrypted version for testing,"
+    echo "use: git commit --no-verify"
+    echo ""
+    exit 1
+fi

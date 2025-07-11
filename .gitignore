@@ -1,0 +1,12 @@
+cluster/rendered
+
+# Temporary decrypted secrets - NEVER commit these!
+/tmp/secrets.yaml
+**/secrets-decrypted.yaml
+**/secrets.yaml.dec
+**/secrets.yaml.tmp
+**/*-secrets-*.yaml
+
+# Other temporary files
+*.tmp
+*.bak
