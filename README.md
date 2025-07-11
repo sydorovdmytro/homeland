@@ -10,7 +10,7 @@ This repository contains the infrastructure as code for my home lab setup.
 
 [📖 View Cluster Documentation](./cluster/README.md)
 
-## � Quick Start
+## ⚡ Quick Start
 
 1. **Set up git hooks** (prevents committing unencrypted secrets):
 
