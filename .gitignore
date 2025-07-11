@@ -1,4 +1,6 @@
-cluster/rendered
+# Ignore rendered cluster configs but keep the folder structure
+cluster/rendered/*
+!cluster/rendered/.gitignore
 
 # Temporary decrypted secrets - NEVER commit these!
 /tmp/secrets.yaml
