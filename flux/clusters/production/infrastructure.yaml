@@ -11,6 +11,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/components
+  path: ./flux/infrastructure/components
   prune: true
   wait: true
