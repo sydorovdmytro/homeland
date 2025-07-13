@@ -10,6 +10,12 @@ This repository contains the infrastructure as code for my home lab setup.
 
 [📖 View Cluster Documentation](./cluster/README.md)
 
+### [🔄 GitOps with Flux](./flux/)
+
+Flux GitOps configuration for automated deployment and management of Kubernetes workloads.
+
+[📖 View Flux Documentation](./flux/README.md)
+
 ## ⚡ Quick Start
 
 1. **Set up git hooks** (prevents committing unencrypted secrets):
@@ -20,8 +26,10 @@ This repository contains the infrastructure as code for my home lab setup.
 
 2. **Deploy components**:
    - [Kubernetes Cluster](./cluster/README.md)
+   - [GitOps with Flux](./flux/README.md)
 
 ## 📚 References
 
 - [Talos Documentation](https://www.talos.dev/)
+- [Flux Documentation](https://fluxcd.io/flux/)
 - [Git Hooks Documentation](./hooks/README.md)
