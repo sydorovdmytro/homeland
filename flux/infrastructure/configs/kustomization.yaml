@@ -7,4 +7,4 @@ metadata:
     config.kubernetes.io/local-config: "true"
 
 resources:
-  - "**/*.yaml"
+  - cert-manager/clusterissuer.yaml
