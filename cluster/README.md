@@ -72,6 +72,7 @@ talosctl gen config homeland https://192.168.178.10:6443 \
   --with-secrets /tmp/secrets.yaml \
   --config-patch @cluster/patches/cluster.yaml \
   --config-patch @cluster/patches/disks.yaml \
+  --config-patch @cluster/patches/firewall.yaml \
   --config-patch @cluster/patches/network.yaml \
   --config-patch @cluster/patches/kubernetes.yaml \
   --config-patch-control-plane @cluster/patches/donetsk.yaml \
@@ -181,6 +182,7 @@ The cluster uses several patch files to customize the Talos configuration:
 - **`cluster.yaml`**: General cluster-wide settings
 - **`disks.yaml`**: Disk partitioning and storage configuration
 - **`network.yaml`**: Network interface and routing configuration
+- **`firewall.yaml`**: Firewall rules and security configuration
 - **`kubernetes.yaml`**: Kubernetes-specific settings and features
 - **`donetsk.yaml`**: Control plane node specific configuration
 
@@ -189,7 +191,7 @@ The cluster uses several patch files to customize the Talos configuration:
 ### Check Node Status
 
 ```bash
-talosctl get nodes -n 192.168.178.10
+talosctl get nodestatus
 ```
 
 ### View Logs
