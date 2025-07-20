@@ -35,3 +35,6 @@ spec:
         name: metallb
         namespace: metallb
       interval: 12h
+  values:
+    speaker:
+      ignoreExcludeLB: true
