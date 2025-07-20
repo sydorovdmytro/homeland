@@ -11,7 +11,7 @@ portSelector:
     - 443
   protocol: tcp
 ingress:
-  - subnet: 192.168.178.0/24
+  - subnet: 10.20.0.0/22
 ---
 apiVersion: v1alpha1
 kind: NetworkRuleConfig
@@ -31,7 +31,7 @@ portSelector:
     - 50000
   protocol: tcp
 ingress:
-  - subnet: 192.168.178.0/24
+  - subnet: 10.20.0.0/22
 ---
 apiVersion: v1alpha1
 kind: NetworkRuleConfig
@@ -51,7 +51,7 @@ portSelector:
     - 6443
   protocol: tcp
 ingress:
-  - subnet: 192.168.178.0/24
+  - subnet: 10.20.0.0/22
   - subnet: 10.244.0.0/16
 ---
 apiVersion: v1alpha1
@@ -62,7 +62,7 @@ portSelector:
     - 2379-2380
   protocol: tcp
 ingress:
-  - subnet: 192.168.178.10/32
+  - subnet: 10.20.0.0/22
 ---
 apiVersion: v1alpha1
 kind: NetworkRuleConfig
