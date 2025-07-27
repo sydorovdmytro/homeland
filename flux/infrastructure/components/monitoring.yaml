@@ -1,0 +1,89 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: prometheus-community
+  namespace: monitoring
+spec:
+  interval: 24h
+  url: https://prometheus-community.github.io/helm-charts
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "75.15.0"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: monitoring
+      interval: 12h
+  values:
+    fullnameOverride: "p"
+    defaultRules:
+      create: true
+      rules:
+        windows: false
+
+    alertmanager:
+      fullnameOverride: alertmanager
+      enabled: true
+      ingress:
+        enabled: true
+        hosts:
+          - alertmanager.hata.foo
+        tls:
+          - secretName: alertmanager-general-tls
+            hosts:
+              - alertmanager.hata.foo
+
+    grafana:
+      fullnameOverride: grafana
+      enabled: true
+      
+      admin:
+        existingSecret: grafana-admin
+
+      ingress:
+        enabled: true
+        hosts:
+          - grafana.hata.foo
+        tls:
+          - secretName: grafana-general-tls
+            hosts:
+              - grafana.hata.foo
+
+    nodeExporter:
+      fullnameOverride: node-exporter
+      enabled: true
+      operatingSystems:
+        linux:
+          enabled: true
+        aix:
+          enabled: false
+        darwin:
+          enabled: false
+
+    prometheusOperator:
+      fullnameOverride: prometheus-operator
+
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+
+    cleanPrometheusOperatorObjectNames: true
