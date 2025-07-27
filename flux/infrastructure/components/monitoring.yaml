@@ -43,6 +43,8 @@ spec:
       enabled: true
       ingress:
         enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-dns01-cloudflare"
         hosts:
           - alertmanager.hata.foo
         tls:
@@ -53,12 +55,14 @@ spec:
     grafana:
       fullnameOverride: grafana
       enabled: true
-      
+
       admin:
         existingSecret: grafana-admin
 
       ingress:
         enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-dns01-cloudflare"
         hosts:
           - grafana.hata.foo
         tls:
