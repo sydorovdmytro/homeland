@@ -35,3 +35,6 @@ spec:
         name: longhorn
         namespace: longhorn-system
       interval: 12h
+  values:
+    persistence:
+      defaultClassReplicaCount: 1
