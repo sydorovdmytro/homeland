@@ -1,0 +1,7 @@
+# This file is used to customize the image factory configuration.
+# https://www.talos.dev/v1.10/talos-guides/install/boot-assets/
+customization:
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/iscsi-tools
+      - siderolabs/util-linux-tools

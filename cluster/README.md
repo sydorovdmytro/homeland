@@ -12,7 +12,7 @@ This setup uses Talos Linux to create a Kubernetes cluster with custom configura
 - [SOPS](https://github.com/getsops/sops) installed for secrets decryption
 - [Age](https://github.com/FiloSottile/age) for encryption key management
 - Access to the target machines
-- Network connectivity to `192.168.178.10`
+- Network connectivity to `10.20.0.10`
 - Age private key for decrypting secrets
 
 ## Secrets Management
@@ -68,7 +68,7 @@ sops -d cluster/secrets.yaml > /tmp/secrets.yaml
 Generate the Talos configurations with all patches applied:
 
 ```bash
-talosctl gen config homeland https://192.168.178.10:6443 \
+talosctl gen config homeland https://10.20.0.10:6443 \
   --with-secrets /tmp/secrets.yaml \
   --config-patch @cluster/patches/cluster.yaml \
   --config-patch @cluster/patches/disks.yaml \
@@ -83,7 +83,7 @@ talosctl gen config homeland https://192.168.178.10:6443 \
 This command:
 
 - Creates a cluster named "homeland"
-- Sets the Kubernetes API endpoint to `https://192.168.178.10:6443`
+- Sets the Kubernetes API endpoint to `https://10.20.0.10:6443`
 - Uses the decrypted secrets from `/tmp/secrets.yaml`
 - Applies all configuration patches
 - Outputs rendered configurations to `cluster/rendered/`
@@ -101,7 +101,7 @@ Apply the generated configuration to the control plane node:
 ```bash
 talosctl apply-config \
   -f cluster/rendered/controlplane.yaml \
-  -n 192.168.178.10 \
+  -n 10.20.0.10 \
   --insecure
 ```
 
@@ -111,10 +111,10 @@ Set up the talosctl client to communicate with your cluster:
 
 ```bash
 # Set the endpoint
-talosctl config endpoint 192.168.178.10
+talosctl config endpoint 10.20.0.10
 
 # Set the default node
-talosctl config node 192.168.178.10
+talosctl config node 10.20.0.10
 ```
 
 ### 5. Bootstrap the Cluster (First Time Only)
@@ -122,7 +122,7 @@ talosctl config node 192.168.178.10
 If this is a new cluster, bootstrap the Kubernetes control plane:
 
 ```bash
-talosctl bootstrap -n 192.168.178.10
+talosctl bootstrap -n 10.20.0.10
 ```
 
 ### 6. Get Kubeconfig
@@ -130,7 +130,7 @@ talosctl bootstrap -n 192.168.178.10
 Retrieve the Kubernetes configuration:
 
 ```bash
-talosctl kubeconfig -n 192.168.178.10
+talosctl kubeconfig -n 10.20.0.10
 ```
 
 ## Common Operations
@@ -139,10 +139,10 @@ talosctl kubeconfig -n 192.168.178.10
 
 ```bash
 # Check Talos service status
-talosctl service -n 192.168.178.10
+talosctl service -n 10.20.0.10
 
 # Check cluster health
-talosctl health -n 192.168.178.10
+talosctl health -n 10.20.0.10
 
 # Get cluster info
 kubectl cluster-info
@@ -172,7 +172,7 @@ To update the cluster configuration:
 ```bash
 talosctl apply-config \
   -f cluster/rendered/controlplane.yaml \
-  -n 192.168.178.10
+  -n 10.20.0.10
 ```
 
 ## Configuration Patches
@@ -198,16 +198,16 @@ talosctl get nodestatus
 
 ```bash
 # System logs
-talosctl logs -n 192.168.178.10
+talosctl logs -n 10.20.0.10
 
 # Kubernetes logs
-talosctl logs -n 192.168.178.10 kubernetes
+talosctl logs -n 10.20.0.10 kubernetes
 ```
 
 ### Reset Node (Caution!)
 
 ```bash
-talosctl reset -n 192.168.178.10 --graceful
+talosctl reset -n 10.20.0.10 --graceful
 ```
 
 ## Security Notes
@@ -231,10 +231,25 @@ The pre-commit hook will automatically check that `cluster/secrets.yaml` is encr
 
 ## Network Configuration
 
-- **Cluster Endpoint**: `https://192.168.178.10:6443`
-- **Control Plane Node**: `192.168.178.10`
+- **Cluster Endpoint**: `https://10.20.0.10:6443`
+- **Control Plane Node**: `10.20.0.10`
 
 Make sure your network allows communication on the required Talos and Kubernetes ports.
+
+## Upgrading Talos
+
+To upgrade your Talos nodes, use the official Talos metal installer image. This process can be used for both upgrades and fresh installs.
+To build the custom image use the [official guide](https://www.talos.dev/v1.10/talos-guides/install/boot-assets/).
+
+This step is required to install system extensions, e.g. for [Lognhorn installation](https://longhorn.io/docs/1.9.1/advanced-resources/os-distro-specific/talos-linux-support/).
+
+### Recommended Installer Image
+
+Use the following image for upgrades and installations:
+
+```bash
+talosctl upgrade --image factory.talos.dev/metal-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.10.5 --preserve
+```
 
 ## References
 
